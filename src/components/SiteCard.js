@@ -1,6 +1,6 @@
 "use client";
 
-const ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "rsnet.vercel.app";
+const ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "getrs.vercel.app";
 
 export default function SiteCard({ site, onEdit, onDelete, onSettings }) {
   const { name, subdomain, isPasswordProtected, isSuspended, pages } = site;
@@ -30,14 +30,17 @@ export default function SiteCard({ site, onEdit, onDelete, onSettings }) {
             )}
           </div>
         </div>
+        
+        {/* Naya Path-Based Link Yahan Update Kiya Gaya Hai */}
         <a
-          href={`https://${subdomain}.${ROOT_DOMAIN}`}
+          href={`https://${ROOT_DOMAIN}/sites/${subdomain}`}
           target="_blank"
           rel="noopener noreferrer"
           className="truncate text-sm text-electric-400 hover:underline"
         >
-          {subdomain}.{ROOT_DOMAIN}
+          {ROOT_DOMAIN}/sites/{subdomain}
         </a>
+        
         <p className="mt-1 text-xs text-charcoal-600">
           {pageCount} {pageCount === 1 ? "page" : "pages"} ·{" "}
           <a href={`/sites/${subdomain}`} target="_blank" rel="noopener noreferrer" className="hover:text-white hover:underline">
