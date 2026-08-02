@@ -1,0 +1,37 @@
+name: Auto Unzip RS Net Code
+
+on:
+  push:
+    paths:
+      - 'rsnet-complete.zip'
+
+jobs:
+  unzip-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Extract ZIP and organize folders
+        run: |
+          # Zip file ko extract karna
+          unzip rsnet-complete.zip
+          
+          # 'rsnet' folder ke andar ki saari files aur hidden files ko bahar nikalna
+          shopt -s dotglob
+          mv rsnet/* ./
+          
+          # Khali folder aur original zip file ko delete karna (space bachane ke liye)
+          rm -rf rsnet
+          rm rsnet-complete.zip
+
+      - name: Save (Commit) and Push extracted files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Auto-unzipped Phase 6 complete files [skip ci]"
+          git push
+
