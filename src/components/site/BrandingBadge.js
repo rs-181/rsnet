@@ -15,12 +15,12 @@ export default function BrandingBadge() {
       </a>
       <span aria-hidden="true">·</span>
       <a
-        href="https://rsnet.vercel.app"
+        href="https://getrs.vercel.app"
         target="_blank"
         rel="noopener noreferrer"
         className="hover:text-gold-500"
       >
-        Made with rsnet.vercel.app
+        Made with getrs.vercel.app
       </a>
     </div>
   );
