@@ -1,37 +1,33 @@
-name: Auto Unzip RS Net Code
+name: Auto Unzip Project Files
 
 on:
   push:
     paths:
-      - 'rsnet-complete.zip'
+      - 'rsnet-getrs.zip' # Jab bhi yeh zip file upload hogi, yeh action chalega
+  workflow_dispatch: # Agar aap manually chalana chahein toh iska option bhi diya hai
 
 jobs:
   unzip-and-commit:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Code ko wapas save (push) karne ki permission
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Extract ZIP and organize folders
+      - name: Extract zip file
         run: |
-          # Zip file ko extract karna
-          unzip rsnet-complete.zip
+          # Zip file ko overwrite mode (-o) ke sath extract karega
+          unzip -o rsnet-getrs.zip -d ./
           
-          # 'rsnet' folder ke andar ki saari files aur hidden files ko bahar nikalna
-          shopt -s dotglob
-          mv rsnet/* ./
-          
-          # Khali folder aur original zip file ko delete karna (space bachane ke liye)
-          rm -rf rsnet
-          rm rsnet-complete.zip
+          # Extract hone ke baad purani zip file ko delete kar dega taaki space bache
+          rm rsnet-getrs.zip
 
-      - name: Save (Commit) and Push extracted files
+      - name: Commit and Push extracted files
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Auto-unzipped Phase 6 complete files [skip ci]"
+          git commit -m "Auto-extracted rsnet-getrs.zip and removed archive" || echo "No changes to commit"
           git push
-
