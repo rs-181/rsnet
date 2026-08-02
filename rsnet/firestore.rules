@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can only read/write sites they own.
+    // Password-protection validation for PUBLIC viewing happens in a
+    // server route (Phase 4), not here — these rules only cover the
+    // dashboard's owner-authenticated access.
+    //
+    // isSuspended is deliberately excluded from what an owner can write:
+    // it's set only by the admin panel via the Firebase Admin SDK, which
+    // bypasses these rules entirely. Without this restriction, a suspended
+    // site's owner could simply flip the flag back via a normal client
+    // update — these two clauses close that off.
+    match /sites/{siteId} {
+      allow read, delete: if request.auth != null
+                            && resource.data.ownerId == request.auth.uid;
+      allow update: if request.auth != null
+                      && resource.data.ownerId == request.auth.uid
+                      && request.resource.data.ownerId == resource.data.ownerId
+                      && request.resource.data.get('isSuspended', false) == resource.data.get('isSuspended', false);
+      allow create: if request.auth != null
+                      && request.resource.data.ownerId == request.auth.uid
+                      && request.resource.data.get('isSuspended', false) == false;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-charcoal-950;
+  }
+  body {
+    @apply bg-charcoal-950 text-white font-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold-500 ring-offset-2 ring-offset-charcoal-950;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-gold-500 px-5 py-2.5 font-medium text-charcoal-950 transition hover:bg-gold-400 active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border border-charcoal-600 bg-charcoal-800 px-5 py-2.5 font-medium text-white transition hover:border-electric-400 hover:text-electric-400;
+  }
+  .card {
+    @apply rounded-2xl border border-charcoal-700 bg-charcoal-900 shadow-soft;
+  }
+  .input {
+    @apply w-full rounded-xl border border-charcoal-600 bg-charcoal-800 px-4 py-2.5 text-white placeholder:text-charcoal-600/80 outline-none transition focus:border-gold-500;
+  }
+}
